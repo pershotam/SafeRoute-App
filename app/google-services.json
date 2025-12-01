@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "372174402837",
+    "project_id": "saferoute-f61ba",
+    "storage_bucket": "saferoute-f61ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372174402837:android:2d14c551ca952f1109251c",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.e4617552.saferoute"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFlgQBGn09l1By0xFLcKZNPFLyXv9lMKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

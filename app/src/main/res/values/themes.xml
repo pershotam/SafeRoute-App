@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SafeRoute" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Your actual app theme -->
+    <style name="Theme.SafeRoute" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- disable system splash screen -->
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
 </resources>

@@ -6,14 +6,12 @@ plugins {
 
 android {
     namespace = "uk.ac.tees.mad.e4617552.saferoute"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "uk.ac.tees.mad.e4617552.saferoute"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -29,32 +27,55 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // Jetpack Compose BOM
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    // Jetpack Compose Navigation
+
+    // Material Icons (remove duplicate)
+    implementation("androidx.compose.material:material-icons-extended:1.7.0")
+
+    // Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // Material 3 (UI styling)
-    implementation("androidx.compose.material3:material3")
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    // Firestore (THIS FIXES YOUR ERRORS)
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Google Maps + Location
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.maps.android:maps-compose:2.11.4")
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,3 +84,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
+
+apply(plugin = "com.google.gms.google-services")
