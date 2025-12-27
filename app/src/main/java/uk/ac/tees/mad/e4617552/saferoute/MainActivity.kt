@@ -7,7 +7,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
+import screens.ContactsScreen
+import screens.HomeScreen
+import screens.LoginScreen
+import screens.SafeZonesScreen
+import screens.SignUpScreen
 import uk.ac.tees.mad.e4617552.saferoute.ui.theme.SafeRouteTheme
+import screens.SosScreen
+import com.google.android.gms.maps.model.LatLng
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +42,21 @@ class MainActivity : ComponentActivity() {
                     // ✅ Updated home route with username argument
                     composable("home/{username}") { backStackEntry ->
                         val username = backStackEntry.arguments?.getString("username") ?: "User"
-                        HomePage(navController, username)
+                        HomeScreen(navController, username)
                     }
 
                     // Buttons
-                    composable("sos") { SosScreen() }
+                    composable("sos/{username}/{lat}/{lng}") { backStack ->
+                        val user = backStack.arguments?.getString("username") ?: "User"
+                        val lat = backStack.arguments?.getString("lat")?.toDoubleOrNull() ?: 0.0
+                        val lng = backStack.arguments?.getString("lng")?.toDoubleOrNull() ?: 0.0
+
+                        SosScreen(
+                            username = user,
+                            location = LatLng(lat, lng)
+                        )
+                    }
+
                     composable("safezones") { SafeZonesScreen() }
                     composable("contacts") { ContactsScreen() }
                 }

@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.e4617552.saferoute
+package screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -13,9 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import uk.ac.tees.mad.e4617552.saferoute.viewmodel.UserViewModel
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -24,11 +26,13 @@ fun LoginScreen(navController: NavController) {
     val db = FirebaseFirestore.getInstance()
     val context = LocalContext.current
 
+    // 🔥 Get ViewModel (Teacher requirement)
+    val userViewModel: UserViewModel = viewModel()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
 
-    // ⭐ FIX: Clean white input fields with proper borders
     val fieldColors = OutlinedTextFieldDefaults.colors(
         unfocusedBorderColor = Color.White,
         focusedBorderColor = Color.White,
@@ -43,7 +47,7 @@ fun LoginScreen(navController: NavController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF0A1A3F) // Navy Blue background
+        color = Color(0xFF0A1A3F)
     ) {
 
         Column(
@@ -56,15 +60,10 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(
-                "Login",
-                color = Color.White,
-                style = MaterialTheme.typography.headlineMedium
-            )
+            Text("Login", color = Color.White, style = MaterialTheme.typography.headlineMedium)
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // EMAIL
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -76,7 +75,6 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // PASSWORD
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -94,7 +92,6 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(22.dp))
 
-            // LOGIN BUTTON
             Button(
                 onClick = {
                     if (email.isEmpty() || password.isEmpty()) {
@@ -102,46 +99,38 @@ fun LoginScreen(navController: NavController) {
                         return@Button
                     }
 
-                    auth.signInWithEmailAndPassword(email, password)
+                    // 🔥 Login through ViewModel
+                    userViewModel.doLogin(email, password)
                         .addOnSuccessListener {
 
-                            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                            val uid = auth.currentUser?.uid ?: return@addOnSuccessListener
 
-                            val uid = auth.currentUser?.uid
-                            if (uid == null) {
-                                Toast.makeText(context, "UID is null!", Toast.LENGTH_SHORT).show()
-                                return@addOnSuccessListener
-                            }
-
-                            db.collection("users")
-                                .document(uid)
-                                .get()
+                            db.collection("users").document(uid).get()
                                 .addOnSuccessListener { doc ->
+
                                     val name = doc.getString("name") ?: "User"
+
+                                    // 🔥 Save in ViewModel
+                                    userViewModel.setUserInfo(
+                                        uid = uid,
+                                        name = name,
+                                        email = email
+                                    )
 
                                     Toast.makeText(context, "Welcome $name!", Toast.LENGTH_SHORT).show()
 
                                     navController.navigate("home/$name") {
                                         popUpTo("login") { inclusive = true }
                                     }
-
-
                                 }
-                                .addOnFailureListener {
-                                    Toast.makeText(context, "Firestore Error: ${it.message}", Toast.LENGTH_SHORT).show()
-                                }
-
                         }
                         .addOnFailureListener {
                             errorMessage = it.message ?: "Login failed"
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                         }
 
                 },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD81B60) // Pink button
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD81B60))
             ) {
                 Text("Login")
             }

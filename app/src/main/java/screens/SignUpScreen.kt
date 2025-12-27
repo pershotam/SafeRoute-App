@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.e4617552.saferoute
+package screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
