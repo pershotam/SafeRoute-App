@@ -72,10 +72,10 @@ fun DrawerItem(text: String, onClick: () -> Unit) {
 @Composable
 fun HomeScreen(navController: NavController, username: String) {
 
-    // ⭐ Get ViewModel once
+    // Get ViewModel
     val locationViewModel: LocationViewModel = viewModel()
 
-    // ⭐ Observing live location text + LatLng
+    // Observing live location text + LatLng
     val currentLocation by locationViewModel.location.collectAsState()
     val locationText by locationViewModel.locationText.collectAsState()
 
@@ -159,15 +159,30 @@ fun HomeScreen(navController: NavController, username: String) {
                             fontWeight = FontWeight.Bold)
 
                         Spacer(Modifier.height(20.dp))
-                        Divider(color = Color.White.copy(alpha = 0.3f))
+                        HorizontalDivider(color = Color.White.copy(alpha = 0.3f))
                         Spacer(Modifier.height(20.dp))
 
-                        DrawerItem("Profile") { scope.launch { drawerState.close() } }
-                        DrawerItem("Home") { scope.launch { drawerState.close() } }
+                        DrawerItem("Profile") {
+                            scope.launch { drawerState.close() }
+                            navController.navigate("profile")
+                        }
+                        DrawerItem("Home") {
+                            scope.launch { drawerState.close() }
+
+                            navController.navigate("home/$username") {
+                                popUpTo("home/$username") { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
                         DrawerItem("SOS Alert") {
                             scope.launch { drawerState.close() }
-                            navController.navigate("sos")
+
+                            val lat = currentLocation?.latitude ?: 0.0
+                            val lng = currentLocation?.longitude ?: 0.0
+
+                            navController.navigate("sos/$username/$lat/$lng")
                         }
+
                         DrawerItem("Safe Zones") {
                             scope.launch { drawerState.close() }
                             navController.navigate("safezones")

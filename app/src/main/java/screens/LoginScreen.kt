@@ -26,7 +26,7 @@ fun LoginScreen(navController: NavController) {
     val db = FirebaseFirestore.getInstance()
     val context = LocalContext.current
 
-    // 🔥 Get ViewModel (Teacher requirement)
+    // Get ViewModel
     val userViewModel: UserViewModel = viewModel()
 
     var email by remember { mutableStateOf("") }
@@ -99,7 +99,7 @@ fun LoginScreen(navController: NavController) {
                         return@Button
                     }
 
-                    // 🔥 Login through ViewModel
+                    // Login through ViewModel
                     userViewModel.doLogin(email, password)
                         .addOnSuccessListener {
 
@@ -110,7 +110,7 @@ fun LoginScreen(navController: NavController) {
 
                                     val name = doc.getString("name") ?: "User"
 
-                                    // 🔥 Save in ViewModel
+                                    // Save in ViewModel
                                     userViewModel.setUserInfo(
                                         uid = uid,
                                         name = name,

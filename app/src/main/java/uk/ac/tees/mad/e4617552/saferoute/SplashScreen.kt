@@ -29,7 +29,7 @@ fun SplashScreen(navController: NavController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF0A1A3F) // Navy background
+        color = Color(0xFF0A1A3F)
     ) {
 
         Column(
@@ -38,14 +38,13 @@ fun SplashScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            // Logo closer to text
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "SafeRoute Logo",
                 modifier = Modifier.size(95.dp)
             )
 
-            Spacer(modifier = Modifier.height(6.dp))   // ⬅ decreased spacing
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
                 text = "SafeRoute",
@@ -54,7 +53,7 @@ fun SplashScreen(navController: NavController) {
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(4.dp))    // ⬅ VERY small gap
+            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = "Your Smart Safety Companion",

@@ -170,7 +170,7 @@ fun SignUpScreen(navController: NavController) {
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD81B60) // Pink Accent
+                    containerColor = Color(0xFFD81B60)
                 )
             ) {
                 Text("Sign Up")

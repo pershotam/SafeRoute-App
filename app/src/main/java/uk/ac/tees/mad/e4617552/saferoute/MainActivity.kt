@@ -15,6 +15,8 @@ import screens.SignUpScreen
 import uk.ac.tees.mad.e4617552.saferoute.ui.theme.SafeRouteTheme
 import screens.SosScreen
 import com.google.android.gms.maps.model.LatLng
+import screens.ProfileScreen
+
 
 
 class MainActivity : ComponentActivity() {
@@ -39,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     composable("signup") { SignUpScreen(navController) }
 
 
-                    // ✅ Updated home route with username argument
+                    // home route
                     composable("home/{username}") { backStackEntry ->
                         val username = backStackEntry.arguments?.getString("username") ?: "User"
                         HomeScreen(navController, username)
@@ -52,13 +54,25 @@ class MainActivity : ComponentActivity() {
                         val lng = backStack.arguments?.getString("lng")?.toDoubleOrNull() ?: 0.0
 
                         SosScreen(
+                            navController = navController,
                             username = user,
                             location = LatLng(lat, lng)
                         )
+
                     }
 
-                    composable("safezones") { SafeZonesScreen() }
-                    composable("contacts") { ContactsScreen() }
+                    composable("safezones") {
+                        SafeZonesScreen(navController = navController)
+                    }
+                    composable("contacts") {
+                        ContactsScreen(navController = navController)
+                    }
+                    composable("profile") {
+                        ProfileScreen(navController = navController)
+                    }
+
+
+
                 }
             }
         }

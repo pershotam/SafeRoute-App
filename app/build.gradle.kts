@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    // Material Icons (remove duplicate)
+    // Material Icons
     implementation("androidx.compose.material:material-icons-extended:1.7.0")
 
     // Navigation Compose
@@ -67,7 +67,7 @@ dependencies {
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth-ktx")
 
-    // Firestore (THIS FIXES YOUR ERRORS)
+    // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
 
     // Google Maps + Location
